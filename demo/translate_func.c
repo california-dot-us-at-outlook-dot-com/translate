@@ -80,7 +80,7 @@ char* unicode_to_chinese(char*uni){
  zi[0]=zi_size;
  //zi[]=====[int size,int unicode,int unicode,........,int unicode]
  char *chinese=(char*)malloc(sizeof(char)*6*(zi_size+1));
- chinese[zi_size]='\0';
+// chinese[zi_size*3]='\0';
  wchar_t wstr[zi_size];
  for(int i=0;i<zi_size;i++){
   wstr[i]=zi[i+1];
@@ -89,6 +89,7 @@ char* unicode_to_chinese(char*uni){
 
  wcstombs(chinese,wstr,zi_size*3);
  //printf("chinese:%s\n",chinese);
+ chinese[zi_size*3]='\0';
  return chinese;
 }
 
@@ -101,6 +102,26 @@ char* json_to_origin(char*json){
  int a,b;
  a=i+6;
  b=j-2;
+ char *uni=malloc(sizeof(char)*2560);
+ for(int i=0;i<b-a;i++){
+  uni[i]=json[i+a];
+  if(i==(b-a-1)){
+   uni[i+1]='\0';
+  }
+ }
+ //printf("uni:%s\n",uni);
+ return uni;
+}
+
+char* json_to_english(char*json){
+ int i,j;
+ for(i=0;(json[i]!='d'||json[i+1]!='s'||json[i+2]!='t'||json[i+3]!='"')&&i<strlen(json)-3;i++){
+ }
+ for(j=0;(json[j]!='}')&&j<strlen(json);j++){
+ }
+ int a,b;
+ a=i+6;
+ b=j-1;
  char *uni=malloc(sizeof(char)*2560);
  for(int i=0;i<b-a;i++){
   uni[i]=json[i+a];
@@ -133,8 +154,14 @@ char* origin_to_message(char*appid,char*origin,char*salt,char*passwd){
  }
  sign[32]='\0';
  //sign ==sign
+ // char *api_E="&from=en&to=zh&appid=";
+ // char *api_C="&from=zh&to=en&appid=";
  char *api_1="GET /api/trans/vip/translate?q=";//origin
  char *api_2="&from=en&to=zh&appid=";//appid
+ // if(origin[0]=='\\'){
+ //  char *api_2=api_C;
+ // }
+
  char *api_3="&salt=";//salt
  char *api_4="&sign=";//sign
  char api_5[50]=" HTTP/1.1\r\nHost:api.fanyi.baidu.com\r\n\r\n";
@@ -154,5 +181,23 @@ char* origin_to_message(char*appid,char*origin,char*salt,char*passwd){
  strcat(message,api_5);
  message[strLen]='\0';
  return message;
+ 
+}
+
+
+char* E2C(char* appid,char* origin,char* salt,char* passwd,struct addrinfo *res){
+ char* message=origin_to_message(appid,origin,salt,passwd);
+ char* json=connect_and_return_json(message,res);
+ char* unicode=json_to_unicode(json);
+ char* english=json_to_origin(json);
+ char* chinese=unicode_to_chinese(unicode);
+ return chinese;
+}
+
+char* C2E(char* appid,char* origin,char* salt,char* passwd,struct addrinfo *res){
+ char* message=origin_to_message(appid,origin,salt,passwd);
+ char* json=connect_and_return_json(message,res);
+ char* english=json_to_english(json);
+ return english;
  
 }

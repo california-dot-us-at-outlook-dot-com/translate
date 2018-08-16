@@ -25,4 +25,7 @@ char* unicode_to_chinese(char*);
 char* json_to_origin(char*);
 char* origin_to_message(char*,char*,char*,char*);
 char* unicode_to_chinese(char*);
+char* json_to_english(char*);
+char* E2C(char*,char*,char*,char*,struct addrinfo*);
+char* C2E(char*,char*,char*,char*,struct addrinfo*);
 #endif
