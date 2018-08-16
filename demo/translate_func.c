@@ -36,14 +36,14 @@ char* json_to_unicode(char*json){
 }
 
 char* unicode_to_chinese(char*uni){
- printf("chinese-uni:%s\n",uni);
+ //printf("chinese-uni:%s\n",uni);
  int zi_size=0;
  for(int i=0;i<strlen(uni);i++){
   if(uni[i]=='\\'){
    zi_size++;
   }
  }
- printf("zishu_%d\n",zi_size);
+ //printf("zishu_%d\n",zi_size);
  char bianma[zi_size][4];
  int tmpptr=0;
  for(int i=0;i<strlen(uni);i++){
@@ -54,7 +54,7 @@ char* unicode_to_chinese(char*uni){
    tmpptr++;
   }
  }
- printf("bianma_size:%d\n",tmpptr);
+ //printf("bianma_size:%d\n",tmpptr);
  //char bianma[zi_size][4]======[['1','2','3','4'],['4','5','a','g']...['3'.'2'.'c'.'5']]
  int pow[4];
  pow[0]=4096;
@@ -74,7 +74,7 @@ char* unicode_to_chinese(char*uni){
     zi[i+1]+=((bianma[i][j])-87)*pow[j];
    }
   }
-  printf("zi[]:%d\n",zi[i+1]);
+  //printf("zi[]:%d\n",zi[i+1]);
 
  }
  zi[0]=zi_size;
@@ -88,7 +88,7 @@ char* unicode_to_chinese(char*uni){
  setlocale(LC_ALL,"");
 
  wcstombs(chinese,wstr,zi_size*3);
- printf("chinese:%s\n",chinese);
+ //printf("chinese:%s\n",chinese);
  return chinese;
 }
 
@@ -108,7 +108,7 @@ char* json_to_origin(char*json){
    uni[i+1]='\0';
   }
  }
- printf("uni:%s\n",uni);
+ //printf("uni:%s\n",uni);
  return uni;
 }
 
@@ -129,7 +129,7 @@ char* origin_to_message(char*appid,char*origin,char*salt,char*passwd){
  MD5Update(&md5,str1,strlen((char*)str1));
  MD5Final(&md5,sign1);
  for(int i=0;i<16;i++){
-  sprintf(&(sign[2*i]),"%02x",sign1[i]);
+  s//printf(&(sign[2*i]),"%02x",sign1[i]);
  }
  sign[32]='\0';
  //sign ==sign
