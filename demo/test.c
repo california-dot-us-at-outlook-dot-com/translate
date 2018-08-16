@@ -1,25 +1,11 @@
 #include "translate.h"
 
 
-#include<sys/socket.h>
-#include<netinet/in.h>
-#include<sys/types.h>
-#include<arpa/inet.h>
-
-#include<unistd.h>
-#include<sys/wait.h>
-#include<errno.h>
-#include<stdlib.h>
-
-#include<stdio.h>
-#include<string.h>
-#include<netdb.h>
-
-
 int main(){
- char *origindd="apple";
- char *appiddd="2015063000000001";
- char *passwddd="12345678";
+ char origindd[2560];
+ scanf("%s\0",&origindd);
+ char *appiddd="20180814000194109";
+ char *passwddd="D3RNNJBRSCVrN4qFMtPV";
  char *saltdd="1435660288";
  struct addrinfo *res,hints;
  memset(&hints,0,sizeof(hints));

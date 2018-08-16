@@ -36,14 +36,14 @@ char* json_to_unicode(char*json){
 }
 
 char* unicode_to_chinese(char*uni){
- 
+ printf("chinese-uni:%s\n",uni);
  int zi_size=0;
  for(int i=0;i<strlen(uni);i++){
   if(uni[i]=='\\'){
    zi_size++;
   }
  }
- 
+ printf("zishu_%d\n",zi_size);
  char bianma[zi_size][4];
  int tmpptr=0;
  for(int i=0;i<strlen(uni);i++){
@@ -54,6 +54,7 @@ char* unicode_to_chinese(char*uni){
    tmpptr++;
   }
  }
+ printf("bianma_size:%d\n",tmpptr);
  //char bianma[zi_size][4]======[['1','2','3','4'],['4','5','a','g']...['3'.'2'.'c'.'5']]
  int pow[4];
  pow[0]=4096;
@@ -73,6 +74,8 @@ char* unicode_to_chinese(char*uni){
     zi[i+1]+=((bianma[i][j])-87)*pow[j];
    }
   }
+  printf("zi[]:%d\n",zi[i+1]);
+
  }
  zi[0]=zi_size;
  //zi[]=====[int size,int unicode,int unicode,........,int unicode]
@@ -84,8 +87,8 @@ char* unicode_to_chinese(char*uni){
  }
  setlocale(LC_ALL,"");
 
- wcstombs(chinese,wstr,sizeof(chinese)/sizeof(char));
-
+ wcstombs(chinese,wstr,zi_size*4);
+ printf("chinese:%s\n",chinese);
  return chinese;
 }
 
@@ -105,6 +108,7 @@ char* json_to_origin(char*json){
    uni[i+1]='\0';
   }
  }
+ printf("uni:%s\n",uni);
  return uni;
 }
 
@@ -136,6 +140,9 @@ char* origin_to_message(char*appid,char*origin,char*salt,char*passwd){
  char api_5[50]=" HTTP/1.1\r\nHost:api.fanyi.baidu.com\r\n\r\n";
  int strLen=strlen(api_1)+strlen(api_2)+strlen(api_3)+strlen(api_4)+strlen(api_5)+strlen(origin)+strlen(appid)+strlen(salt)+strlen(sign);
  char *message=(char*)malloc(sizeof(char)*(strLen+1));
+ for(int i=0;i<strLen+1;i++){
+  *(message+i)='\0';
+ }
  strcat(message,api_1);
  strcat(message,origin);
  strcat(message,api_2);
