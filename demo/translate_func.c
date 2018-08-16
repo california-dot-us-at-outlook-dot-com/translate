@@ -87,7 +87,7 @@ char* unicode_to_chinese(char*uni){
  }
  setlocale(LC_ALL,"");
 
- wcstombs(chinese,wstr,zi_size*4);
+ wcstombs(chinese,wstr,zi_size*3);
  printf("chinese:%s\n",chinese);
  return chinese;
 }
