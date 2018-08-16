@@ -129,7 +129,7 @@ char* origin_to_message(char*appid,char*origin,char*salt,char*passwd){
  MD5Update(&md5,str1,strlen((char*)str1));
  MD5Final(&md5,sign1);
  for(int i=0;i<16;i++){
-  s//printf(&(sign[2*i]),"%02x",sign1[i]);
+  sprintf(&(sign[2*i]),"%02x",sign1[i]);
  }
  sign[32]='\0';
  //sign ==sign
